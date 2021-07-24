@@ -1,4 +1,9 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import {
+  render,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 import { Counter } from './Counter';
 import user from '@testing-library/user-event';
 
@@ -25,6 +30,14 @@ describe('Counter', () => {
 
       it('renders "Current Count: 15"', () => {
         expect(screen.getByText('Current Count: 15')).toBeInTheDocument();
+      });
+
+      // Documentation: https://testing-library.com/docs/guide-disappearance/#waiting-for-disappearance
+      // eslint-disable-next-line jest/expect-expect
+      it('"I am too small" disappears after 300ms', async () => {
+        await waitForElementToBeRemoved(() =>
+          screen.queryByText('I am too small')
+        );
       });
 
       describe('when the incrementor changes to empty string and "+" button is clicked', () => {
